@@ -1,7 +1,12 @@
-﻿namespace T1PR2_APIREST.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace T1PR2_APIREST.Models
 {
     public class Vote
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         public string UserId { get; set; }
