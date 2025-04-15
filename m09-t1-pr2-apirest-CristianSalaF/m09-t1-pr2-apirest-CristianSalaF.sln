@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35828.75
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T1PR2-APIREST", "T1PR2-APIREST\T1PR2-APIREST.csproj", "{E9C76050-786C-40C3-A4AD-6C38AB411A23}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T1PR2-Client", "T1PR2-Client\T1PR2-Client.csproj", "{08AB0B64-6D2D-425E-9470-790DC35DF82C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E9C76050-786C-40C3-A4AD-6C38AB411A23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9C76050-786C-40C3-A4AD-6C38AB411A23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9C76050-786C-40C3-A4AD-6C38AB411A23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9C76050-786C-40C3-A4AD-6C38AB411A23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08AB0B64-6D2D-425E-9470-790DC35DF82C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08AB0B64-6D2D-425E-9470-790DC35DF82C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08AB0B64-6D2D-425E-9470-790DC35DF82C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08AB0B64-6D2D-425E-9470-790DC35DF82C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {85F26200-B3D8-4B2A-8CDB-16A3FD1728E5}
+	EndGlobalSection
+EndGlobal
