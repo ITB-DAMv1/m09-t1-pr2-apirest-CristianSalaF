@@ -7,6 +7,7 @@ using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
 using System.Text;
 using T1PR2_APIREST.Context;
+using T1PR2_APIREST.Hubs;
 using T1PR2_APIREST.Models;
 
 namespace T1PR2_APIREST
@@ -73,7 +74,18 @@ namespace T1PR2_APIREST
     builder.Services.AddControllers().AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-    }); ;
+    });
+
+    builder.Services.AddCors(options =>
+    {
+        options.AddDefaultPolicy(policy =>
+        {
+            policy.WithOrigins("https://localhost:7147"); // client-side connection
+            policy.AllowAnyHeader();
+            policy.AllowAnyMethod();
+            policy.AllowCredentials();
+        });
+    });
 
     builder.Services.AddOpenApi();
 
@@ -106,6 +118,8 @@ namespace T1PR2_APIREST
         });
     });
 
+    builder.Services.AddSignalR();
+
     //********
     var app = builder.Build();
     //*******
@@ -135,6 +149,9 @@ namespace T1PR2_APIREST
     app.UseAuthorization();
 
     app.MapControllers();
+
+    app.UseCors();
+    app.MapHub<XatHub>("/Xat");
 
     app.Run();
 }
