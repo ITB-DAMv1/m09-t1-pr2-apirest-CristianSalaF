@@ -1,36 +1,142 @@
 
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Text.Json.Serialization;
+using System.Text;
+using T1PR2_APIREST.Context;
+using T1PR2_APIREST.Models;
+
 namespace T1PR2_APIREST
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            //TODO: Dev-Api
+    var builder = WebApplication.CreateBuilder(args);
 
-            var builder = WebApplication.CreateBuilder(args);
+    // Add services to the container.
+    var connectionString = builder.Configuration.GetConnectionString("DevelopmentConnection");
+    object value = builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
 
-            // Add services to the container.
+    builder.Services.AddIdentity<User, IdentityRole>(options =>
+     {
+         options.Password.RequireDigit = true;
+         options.Password.RequiredLength = 6;
+         options.Password.RequireNonAlphanumeric = true;
+         options.Password.RequireUppercase = true;
+         options.Password.RequireLowercase = true;
 
-            builder.Services.AddControllers();
-            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-            builder.Services.AddOpenApi();
+         options.User.RequireUniqueEmail = true;
 
-            var app = builder.Build();
+         options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+         options.Lockout.MaxFailedAccessAttempts = 5;
+         options.Lockout.AllowedForNewUsers = true;
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+         // Configuració del login
+         options.SignIn.RequireConfirmedEmail = false;
+     })
+         .AddEntityFrameworkStores<AppDbContext>()
+        .AddDefaultTokenProviders();
+
+    // Token setup and validation
+    var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+
+    builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+        .AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters = new TokenValidationParameters
             {
-                app.MapOpenApi();
+                ValidateIssuer = true,
+                ValidIssuer = jwtSettings["Issuer"],
+
+                ValidateAudience = true,
+                ValidAudience = jwtSettings["Audience"],
+
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.Zero,
+
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"])) 
+            };
+        });
+
+    builder.Services.AddAuthorization();
+
+    // prevent infinite loop
+    builder.Services.AddControllers().AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    }); ;
+
+    builder.Services.AddOpenApi();
+
+    builder.Services.AddEndpointsApiExplorer();
+
+    builder.Services.AddSwaggerGen(opt =>
+    {
+        opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+        {
+            In = ParameterLocation.Header,
+            Description = "Please enter token",
+            Name = "Authorization",
+            Type = SecuritySchemeType.Http,
+            BearerFormat = "JWT",
+            Scheme = "bearer"
+        });
+        opt.AddSecurityRequirement(new OpenApiSecurityRequirement
+        {
+            {
+                new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                    {
+                        Type=ReferenceType.SecurityScheme,
+                        Id="Bearer"
+                    }
+                },
+                new string[]{}
             }
+        });
+    });
 
-            app.UseHttpsRedirection();
+    //********
+    var app = builder.Build();
+    //*******
+    
+    //***** Middlewares ******//
 
-            app.UseAuthorization();
+    //App pipeline
 
+    // Crear rols inicials: Admin i User
+    using (var scope = app.Services.CreateScope())
+    {
+        var services = scope.ServiceProvider;
+        await Tools.RoleTools.CrearRolsInicials(services);
+    }
 
-            app.MapControllers();
+    // Configure the HTTP request pipeline.
+    if (app.Environment.IsDevelopment())
+    {
+        app.MapOpenApi();
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
 
-            app.Run();
-        }
+    app.UseHttpsRedirection();
+
+    app.UseAuthentication();
+    app.UseAuthorization();
+
+    app.MapControllers();
+
+    app.Run();
+}
     }
 }
