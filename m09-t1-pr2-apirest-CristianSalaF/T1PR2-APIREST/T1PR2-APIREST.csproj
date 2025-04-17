@@ -6,6 +6,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<RootNamespace>T1PR2_APIREST</RootNamespace>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<DocumentationFile>..\XMLDocumentation\T1PR2_APIREST_Documentation.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>
