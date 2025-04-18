@@ -12,8 +12,8 @@ using T1PR2_APIREST.Context;
 namespace T1PR2_APIREST.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250415154011_InitMigration")]
-    partial class InitMigration
+    [Migration("20250415221100_initv2")]
+    partial class initv2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
