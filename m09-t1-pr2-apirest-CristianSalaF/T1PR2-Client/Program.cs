@@ -13,10 +13,6 @@ namespace T1PR2_Client
 
             await Task.Delay(3000);
 
-
-            //TODO: added methods but still partial in the Login.cshtml.cs and Login.cshtml page, lacking a Logout, and i've yet to check the API connection.
-            //TODO: make the api connect with the host like i've connected the chat to "just work" without authentication.
-            //
             // Accés a la configuració del fitxer appsettings.json
             string apiBaseUrl = builder.Configuration["ApiSettings:BaseUrl"] ?? throw new InvalidOperationException("API base URL not found");
 
