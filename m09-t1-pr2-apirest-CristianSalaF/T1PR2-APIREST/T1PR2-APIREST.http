@@ -1,6 +1,0 @@
-@T1PR2_APIREST_HostAddress = http://localhost:5122
-
-GET {{T1PR2_APIREST_HostAddress}}/api/
-Accept: application/json
-
-###
