@@ -7,6 +7,7 @@ using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
 using System.Text;
 using T1PR2_APIREST.Context;
+using T1PR2_APIREST.Data;
 using T1PR2_APIREST.Hubs;
 using T1PR2_APIREST.Models;
 
@@ -132,7 +133,20 @@ namespace T1PR2_APIREST
     using (var scope = app.Services.CreateScope())
     {
         var services = scope.ServiceProvider;
-        await Tools.RoleTools.CrearRolsInicials(services);
+        try
+        {
+            // Create initial roles
+            await Tools.RoleTools.CrearRolsInicials(services);
+                    
+            // Seed the database with initial games
+            var context = services.GetRequiredService<AppDbContext>();
+            await DbInitializer.Initialize(context, services);
+        }
+        catch (Exception ex)
+        {
+            var logger = services.GetRequiredService<ILogger<Program>>();
+            logger.LogError(ex, "An error occurred while seeding the database.");
+        }
     }
 
     // Configure the HTTP request pipeline.
