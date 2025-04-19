@@ -1,13 +1,10 @@
 ﻿@page
-@model T1PR2_Client.Pages.XatModel
+@model T1PR2_Client.Pages.UsersXatModel
 @{
-	ViewData["Title"] = "Xat";
+    ViewData["Title"] = "Xat d'usuaris";
+    var displayName = User.Identity?.Name ?? "Usuari desconegut";
 }
-<h2>Xat en temps real</h2>
-<!-- TODO: grab the current username, and this page can only be accessed if logged in -->
-<label for="usuari">Nom:</label>
-<input id="usuari" placeholder="Nom d'usuari" />
-<br />
+<h3>Benvingut al xat, @Model.DisplayName!</h3>
 
 <label for="missatge">Missatge:</label>
 <input id="missatge" placeholder="Escriu un missatge" />
@@ -16,9 +13,9 @@
 <ul id="missatges"></ul>
 
 @section Scripts {
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
 
-	<script>
+    <script>
         // Crear connexió amb el Hub al servidor extern
         const connexio = new signalR.HubConnectionBuilder()
             .withUrl("https://localhost:7215/Xat")
@@ -39,7 +36,7 @@
 
         // Enviar missatge al servidor
         function enviaMissatge() {
-            const usuari = document.getElementById("usuari").value;
+            const usuari = "@Model.DisplayName";
             const missatge = document.getElementById("missatge").value;
             connexio.invoke("EnviaMissatge", usuari, missatge)
                 .catch(err => console.error("Error en enviar:", err));
