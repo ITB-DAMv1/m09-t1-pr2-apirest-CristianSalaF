@@ -1,0 +1,299 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>T1PR2-Client</name>
+    </assembly>
+    <members>
+        <member name="T:T1PR2_Client.Model.GameDTO">
+            <summary>
+            Represents a Data Transfer Object (DTO) for a game.
+            </summary>
+        </member>
+        <member name="P:T1PR2_Client.Model.GameDTO.Id">
+            <summary>
+            Gets or sets the unique identifier for the game.
+            </summary>
+        </member>
+        <member name="P:T1PR2_Client.Model.GameDTO.Title">
+            <summary>
+            Gets or sets the title of the game.
+            </summary>
+        </member>
+        <member name="P:T1PR2_Client.Model.GameDTO.Description">
+            <summary>
+            Gets or sets the description of the game.
+            </summary>
+        </member>
+        <member name="P:T1PR2_Client.Model.GameDTO.DeveloperTeamName">
+            <summary>
+            Gets or sets the name of the developer team.
+            </summary>
+        </member>
+        <member name="P:T1PR2_Client.Model.GameDTO.ImageUrl">
+            <summary>
+            Gets or sets the URL of the game's image.
+            </summary>
+        </member>
+        <member name="P:T1PR2_Client.Model.GameDTO.VoteCount">
+            <summary>
+            Gets or sets the vote count for the game.
+            </summary>
+        </member>
+        <member name="T:T1PR2_Client.Model.LoginDTO">
+            <summary>
+            Represents a Data Transfer Object (DTO) for login credentials.
+            </summary>
+        </member>
+        <member name="P:T1PR2_Client.Model.LoginDTO.Email">
+            <summary>
+            Gets or sets the email address of the user.
+            </summary>
+        </member>
+        <member name="P:T1PR2_Client.Model.LoginDTO.Password">
+            <summary>
+            Gets or sets the password of the user.
+            </summary>
+        </member>
+        <member name="T:T1PR2_Client.Model.RegisterDTO">
+            <summary>
+            Data Transfer Object for user registration.
+            </summary>
+        </member>
+        <member name="P:T1PR2_Client.Model.RegisterDTO.Email">
+            <summary>
+            Gets or sets the email address of the user.
+            </summary>
+        </member>
+        <member name="P:T1PR2_Client.Model.RegisterDTO.UserName">
+            <summary>
+            Gets or sets the username of the user.
+            </summary>
+        </member>
+        <member name="P:T1PR2_Client.Model.RegisterDTO.Password">
+            <summary>
+            Gets or sets the password of the user.
+            </summary>
+        </member>
+        <member name="T:T1PR2_Client.Pages.ErrorModel">
+            <summary>
+            Represents the error page model for handling and displaying error information.
+            </summary>
+        </member>
+        <member name="P:T1PR2_Client.Pages.ErrorModel.RequestId">
+            <summary>
+            Gets or sets the request ID associated with the current error.
+            </summary>
+        </member>
+        <member name="P:T1PR2_Client.Pages.ErrorModel.ShowRequestId">
+            <summary>
+            Gets a value indicating whether the request ID should be shown.
+            </summary>
+        </member>
+        <member name="M:T1PR2_Client.Pages.ErrorModel.#ctor(Microsoft.Extensions.Logging.ILogger{T1PR2_Client.Pages.ErrorModel})">
+            <summary>
+            Initializes a new instance of the <see cref="T:T1PR2_Client.Pages.ErrorModel"/> class.
+            </summary>
+            <param name="logger">The logger instance for logging error details.</param>
+        </member>
+        <member name="M:T1PR2_Client.Pages.ErrorModel.OnGet">
+            <summary>
+            Handles GET requests to the error page.
+            </summary>
+        </member>
+        <member name="T:T1PR2_Client.Pages.GameDetailModel">
+            <summary>
+            Represents the model for the Game Detail page.
+            </summary>
+        </member>
+        <member name="M:T1PR2_Client.Pages.GameDetailModel.#ctor(System.Net.Http.IHttpClientFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:T1PR2_Client.Pages.GameDetailModel"/> class.
+            </summary>
+            <param name="httpClient">The HTTP client factory used to create HTTP clients.</param>
+        </member>
+        <member name="P:T1PR2_Client.Pages.GameDetailModel.Id">
+            <summary>
+            Gets or sets the ID of the game.
+            </summary>
+        </member>
+        <member name="P:T1PR2_Client.Pages.GameDetailModel.game">
+            <summary>
+            Gets or sets the game details.
+            </summary>
+        </member>
+        <member name="P:T1PR2_Client.Pages.GameDetailModel.Message">
+            <summary>
+            Gets or sets the message to display to the user.
+            </summary>
+        </member>
+        <member name="M:T1PR2_Client.Pages.GameDetailModel.OnGetAsync">
+            <summary>
+            Handles GET requests to retrieve game details.
+            </summary>
+            <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="M:T1PR2_Client.Pages.GameDetailModel.OnPostAsync">
+            <summary>
+            Handles POST requests to vote for a game.
+            </summary>
+            <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="T:T1PR2_Client.Pages.IndexModel">
+            <summary>
+            Represents the model for the Index page.
+            </summary>
+        </member>
+        <member name="P:T1PR2_Client.Pages.IndexModel.Games">
+            <summary>
+            Gets or sets the list of games retrieved from the API.
+            </summary>
+        </member>
+        <member name="M:T1PR2_Client.Pages.IndexModel.#ctor(System.Net.Http.IHttpClientFactory,Microsoft.Extensions.Logging.ILogger{T1PR2_Client.Pages.IndexModel})">
+            <summary>
+            Initializes a new instance of the <see cref="T:T1PR2_Client.Pages.IndexModel"/> class.
+            </summary>
+            <param name="clientFactory">The HTTP client factory used to create HTTP clients.</param>
+            <param name="logger">The logger used for logging information and errors.</param>
+        </member>
+        <member name="M:T1PR2_Client.Pages.IndexModel.OnGetAsync">
+            <summary>
+            Handles GET requests to the Index page and retrieves the list of games from the API.
+            </summary>
+        </member>
+        <member name="T:T1PR2_Client.Pages.LoginModel">
+            <summary>
+            Represents the login page model for handling user authentication.
+            </summary>
+        </member>
+        <member name="P:T1PR2_Client.Pages.LoginModel.Login">
+            <summary>
+            Gets or sets the login data transfer object.
+            </summary>
+        </member>
+        <member name="P:T1PR2_Client.Pages.LoginModel.ErrorMessage">
+            <summary>
+            Gets or sets the error message to display on the login page.
+            </summary>
+        </member>
+        <member name="M:T1PR2_Client.Pages.LoginModel.#ctor(System.Net.Http.IHttpClientFactory,Microsoft.Extensions.Logging.ILogger{T1PR2_Client.Pages.LoginModel})">
+            <summary>
+            Initializes a new instance of the <see cref="T:T1PR2_Client.Pages.LoginModel"/> class.
+            </summary>
+            <param name="httpClient">The HTTP client factory for making API requests.</param>
+            <param name="logging">The logger for logging information and errors.</param>
+        </member>
+        <member name="M:T1PR2_Client.Pages.LoginModel.OnGet">
+            <summary>
+            Handles GET requests to the login page.
+            </summary>
+        </member>
+        <member name="M:T1PR2_Client.Pages.LoginModel.OnPostAsync">
+            <summary>
+            Handles POST requests for user login.
+            </summary>
+            <returns>An <see cref="T:Microsoft.AspNetCore.Mvc.IActionResult"/> indicating the result of the login attempt.</returns>
+        </member>
+        <member name="T:T1PR2_Client.Pages.LogoutModel">
+            <summary>
+            Represents the model for the Logout page.
+            </summary>
+        </member>
+        <member name="M:T1PR2_Client.Pages.LogoutModel.OnGet">
+            <summary>
+            Handles GET requests to log out the user by clearing the session and redirecting to the Index page.
+            </summary>
+            <returns>A redirection to the Index page.</returns>
+        </member>
+        <member name="T:T1PR2_Client.Pages.RegisterModel">
+            <summary>
+            Represents the model for the Register page.
+            Handles user registration functionality.
+            </summary>
+        </member>
+        <member name="P:T1PR2_Client.Pages.RegisterModel.Register">
+            <summary>
+            Gets or sets the registration data transfer object.
+            </summary>
+        </member>
+        <member name="P:T1PR2_Client.Pages.RegisterModel.ErrorMessage">
+            <summary>
+            Gets or sets the error message to display in case of registration failure.
+            </summary>
+        </member>
+        <member name="M:T1PR2_Client.Pages.RegisterModel.#ctor(System.Net.Http.IHttpClientFactory,Microsoft.Extensions.Logging.ILogger{T1PR2_Client.Pages.RegisterModel})">
+            <summary>
+            Initializes a new instance of the <see cref="T:T1PR2_Client.Pages.RegisterModel"/> class.
+            </summary>
+            <param name="httpClient">The HTTP client factory for making API requests.</param>
+            <param name="logger">The logger for logging information and errors.</param>
+        </member>
+        <member name="M:T1PR2_Client.Pages.RegisterModel.OnGet">
+            <summary>
+            Handles GET requests to the Register page.
+            </summary>
+        </member>
+        <member name="M:T1PR2_Client.Pages.RegisterModel.OnPostAsync">
+            <summary>
+            Handles POST requests for user registration.
+            </summary>
+            <returns>A task that represents the asynchronous operation.</returns>
+        </member>
+        <member name="T:T1PR2_Client.Program">
+            <summary>
+            Main class for the ASP.NET Core application.
+            This class contains the entry point for the application.
+            It is responsible for configuring and running the web application.
+            </summary>
+        </member>
+        <member name="M:T1PR2_Client.Program.Main(System.String[])">
+            <summary>
+            Main method for the ASP.NET Core application.
+            This method is the entry point of the application.
+            It sets up the web application, configures services, and runs the application.
+            It includes setting up the configuration, services, middleware, and routing.
+            It also includes setting up authentication and session management.
+            This method is responsible for starting the application and handling incoming requests.
+            It is the main entry point for the application and is called when the application starts.
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="T:T1PR2_Client.Tools.SecurityTools">
+            <summary>
+            This class contains security-related utility methods.
+            It provides methods for encrypting passwords and other sensitive data.
+            It is used to enhance the security of the application by providing encryption functionalities.
+            It includes methods for hashing passwords using SHA256 algorithm.
+            </summary>
+        </member>
+        <member name="M:T1PR2_Client.Tools.SecurityTools.EncriptPassword(System.String)">
+            <summary>
+            Encrypts a password using SHA256 hashing algorithm.
+            This method takes a password as input and returns the hashed password as a string.
+            It uses SHA256 algorithm to create a hash of the password.
+            The hashed password is a fixed-length string that represents the original password.
+            </summary>
+            <param name="password"></param>
+            <returns></returns>
+        </member>
+        <member name="M:T1PR2_Client.Tools.TokenHelper.IsTokenExpired(System.String)">
+            <summary>
+            Validar si el token ha expirat o no
+            Requereix de la instal·lacio de la llibreria System.IdentityModel.Tokens.Jwt
+            </summary>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="T:T1PR2_APIREST.DTOs.VoteDTO">
+            <summary>
+            Represents a vote for a specific game.
+            </summary>
+        </member>
+        <member name="P:T1PR2_APIREST.DTOs.VoteDTO.GameId">
+            <summary>
+            Gets or sets the ID of the game being voted for.
+            </summary>
+        </member>
+    </members>
+</doc>
