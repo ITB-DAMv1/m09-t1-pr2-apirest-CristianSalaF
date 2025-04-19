@@ -8,18 +8,40 @@ using T1PR2_APIREST.DTOs;
 
 namespace T1PR2_APIREST.Controllers
 {
+    /// <summary>
+    /// Controller for managing video games.
+    /// This controller handles CRUD operations for video games, as well as voting functionality.
+    /// It uses Entity Framework Core for database operations.
+    /// It provides endpoints for creating, reading, updating, and deleting video games.
+    /// It also allows users to vote for their favorite games.
+    /// This controller is secured with authentication and authorization mechanisms.
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class VideogameController : ControllerBase
     {
         private readonly AppDbContext _context;
 
+        /// <summary>
+        /// Constructor for the VideogameController class.
+        /// This constructor takes AppDbContext as a parameter.
+        /// It is used to initialize the controller with the database context.
+        /// This allows the controller to interact with the database and perform CRUD operations on video games.
+        /// </summary>
+        /// <param name="context"></param>
         public VideogameController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Videogame
+        /// <summary>
+        /// Get all video games.
+        /// This method retrieves a list of all video games from the database.
+        /// It includes the number of votes for each game.
+        /// It is accessible to all users (anonymous).
+        /// Example call: GET /api/videogame
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<ReadGameDTO>>> GetAll()
@@ -42,8 +64,15 @@ namespace T1PR2_APIREST.Controllers
             return Ok(gameDtos);
         }
 
-
-        // GET: api/Videogame/5
+        /// <summary>
+        /// Get a video game by ID.
+        /// This method retrieves a specific video game from the database using its ID.
+        /// It includes the number of votes for the game.
+        /// It is accessible to all users (anonymous).
+        /// Example call: GET /api/videogame/5
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         [AllowAnonymous]
         public async Task<ActionResult<ReadGameDTO>> GetById(int id)
@@ -67,7 +96,15 @@ namespace T1PR2_APIREST.Controllers
             return Ok(gameDto);
         }
 
-        // POST: api/Videogame
+        /// <summary>
+        /// Create a new video game.
+        /// This method adds a new video game to the database.
+        /// It requires admin authorization.
+        /// It is accessible only to users with the "Admin" role.
+        /// Example call: POST /api/videogame
+        /// </summary>
+        /// <param name="game"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateGame(Game game)
@@ -77,7 +114,16 @@ namespace T1PR2_APIREST.Controllers
             return Ok(game);
         }
 
-        // PUT: api/Videogame/5
+        /// <summary>
+        /// Update an existing video game.
+        /// This method updates the details of a specific video game in the database using its ID.
+        /// It requires admin authorization.
+        /// It is accessible only to users with the "Admin" role.
+        /// /// Example call: PUT /api/videogame/5
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="updated"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> EditGame(int id, Game updated)
@@ -95,6 +141,15 @@ namespace T1PR2_APIREST.Controllers
         }
 
         // DELETE: api/Videogame/5
+        /// <summary>
+        /// Delete a video game.
+        /// This method removes a specific video game from the database using its ID.
+        /// It requires admin authorization.
+        /// It is accessible only to users with the "Admin" role.
+        /// Example call: DELETE /api/videogame/5
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteGame(int id)
@@ -107,7 +162,15 @@ namespace T1PR2_APIREST.Controllers
             return NoContent();
         }
 
-        // POST: api/Videogame/vote/5
+        /// <summary>
+        /// Vote for a video game.
+        /// This method allows a user to vote for their favorite video game.
+        /// It requires user authentication.
+        /// It is accessible only to authenticated users.
+        /// Example call: POST /api/videogame/vote/5
+        /// </summary>
+        /// <param name="gameId"></param>
+        /// <returns></returns>
         [HttpPost("vote/{gameId}")]
         [Authorize]
         public async Task<IActionResult> Vote(int gameId)

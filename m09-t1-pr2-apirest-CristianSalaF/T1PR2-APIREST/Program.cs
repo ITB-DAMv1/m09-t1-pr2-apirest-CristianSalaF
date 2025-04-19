@@ -13,8 +13,15 @@ using T1PR2_APIREST.Models;
 
 namespace T1PR2_APIREST
 {
+    /// <summary>
+    /// The main entry point for the T1PR2 API REST application.
+    /// </summary>
     public class Program
     {
+        /// <summary>
+        /// The main method that starts the application.
+        /// </summary>
+        /// <param name="args">Command-line arguments.</param>
         public static async Task Main(string[] args)
         {
     var builder = WebApplication.CreateBuilder(args);
