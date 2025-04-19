@@ -101,7 +101,8 @@ namespace T1PR2_APIREST.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim("DisplayName", user.DisplayName)
             };
 
             var roles = await _userManager.GetRolesAsync(user);
