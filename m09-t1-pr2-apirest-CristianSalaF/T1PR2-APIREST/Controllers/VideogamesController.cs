@@ -179,10 +179,10 @@ namespace T1PR2_APIREST.Controllers
             if (userId == null) return Unauthorized();
 
             var gameExists = await _context.Games.AnyAsync(g => g.Id == gameId);
-            if (!gameExists) return NotFound("Game not found.");
+            if (!gameExists) return NotFound("No s'ha trobat el joc.");
 
             bool alreadyVoted = await _context.Votes.AnyAsync(v => v.UserId == userId && v.GameId == gameId);
-            if (alreadyVoted) return BadRequest("You have already voted for this game.");
+            if (alreadyVoted) return BadRequest("Ja has votat per aquest joc.");
 
             var vote = new Vote
             {
