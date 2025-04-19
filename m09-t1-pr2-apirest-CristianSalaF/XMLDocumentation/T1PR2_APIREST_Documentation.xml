@@ -1,0 +1,435 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>T1PR2-APIREST</name>
+    </assembly>
+    <members>
+        <member name="T:T1PR2_APIREST.Context.AppDbContext">
+            <summary>
+            Database context for the application.
+            This class inherits from IdentityDbContext to manage user authentication and authorization.
+            It also includes DbSet properties for the Game and Vote entities.
+            </summary>
+        </member>
+        <member name="M:T1PR2_APIREST.Context.AppDbContext.#ctor(Microsoft.EntityFrameworkCore.DbContextOptions{T1PR2_APIREST.Context.AppDbContext})">
+            <summary>
+            Constructor for the AppDbContext class.
+            This constructor takes DbContextOptions as a parameter and passes it to the base class constructor.
+            It is used to configure the database context with specific options such as connection string, provider, etc.
+            </summary>
+            <param name="options"></param>
+        </member>
+        <member name="P:T1PR2_APIREST.Context.AppDbContext.Games">
+            <summary>
+            DbSet for the Game entity.
+            This represents the games in the database.
+            </summary>
+        </member>
+        <member name="P:T1PR2_APIREST.Context.AppDbContext.Votes">
+            <summary>
+            DbSet for the Vote entity.
+            This represents the votes cast by users for games in the database. 
+            </summary>
+        </member>
+        <member name="M:T1PR2_APIREST.Context.AppDbContext.OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <summary>
+            Configures the model for the database context.
+            This method is called when the model for the context is being created.
+            It allows for custom configurations and relationships between entities.
+            This includes defining relationships between Game, User, and Vote entities.
+            It also sets up a unique constraint to ensure that each user can only vote once per game.
+            </summary>
+            <param name="builder"></param>
+        </member>
+        <member name="T:T1PR2_APIREST.Controllers.AuthController">
+            <summary>
+            Controller for user authentication and registration.
+            This controller handles user login, registration, and token generation.
+            It uses ASP.NET Core Identity for user management and JWT for token generation.
+            It provides endpoints for checking token validity, registering users, and logging in users.
+            It also includes methods for registering users as admins.
+            This controller is secured with authentication and authorization mechanisms.
+            It is used to manage user access to the application and its resources.
+            It provides a way to authenticate users and issue tokens that can be used to access protected resources.
+            </summary>
+        </member>
+        <member name="M:T1PR2_APIREST.Controllers.AuthController.#ctor(Microsoft.AspNetCore.Identity.UserManager{T1PR2_APIREST.Models.User},Microsoft.Extensions.Logging.ILogger{T1PR2_APIREST.Controllers.AuthController},Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Constructor for the AuthController class.
+            This constructor takes UserManager, ILogger, and IConfiguration as parameters.
+            It is used to initialize the controller with the required dependencies.
+            UserManager is used for managing user accounts and authentication.
+            ILogger is used for logging information and errors.
+            IConfiguration is used for accessing application configuration settings. 
+            </summary>
+            <param name="userManager"></param>
+            <param name="logger"></param>
+            <param name="configuration"></param>
+        </member>
+        <member name="M:T1PR2_APIREST.Controllers.AuthController.CheckToken">
+            <summary>
+            CheckToken method to verify the validity of the JWT token.
+            This method returns the username, user ID, and role of the authenticated user.
+            It is used to check if the token is still valid and to retrieve user information.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:T1PR2_APIREST.Controllers.AuthController.Register(T1PR2_APIREST.DTOs.RegisterDTO)">
+            <summary>
+            Register method to create a new user account.
+            This method takes a RegisterDTO object as input and creates a new user in the database.
+            It also assigns the user to the "User" role.
+            This method is accessible to all users.
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:T1PR2_APIREST.Controllers.AuthController.RegisterAdmin(T1PR2_APIREST.DTOs.RegisterDTO)">
+            <summary>
+            RegisterAdmin method to create a new admin account.
+            This method takes a RegisterDTO object as input and creates a new user in the database.
+            It also assigns the user to the "Admin" role.
+            This method is accessible to all users. Though, for production this should be changed.
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:T1PR2_APIREST.Controllers.AuthController.Login(T1PR2_APIREST.DTOs.LoginDTO)">
+            <summary>
+            Login method to authenticate users and generate JWT tokens.
+            This method checks the provided email and password against the stored user credentials.
+            If the credentials are valid, it creates a JWT token with the user's claims and roles.
+            The token is then returned in the response.
+            This method is accessible to all users.
+            It is used for user authentication and authorization in the application.
+            The token can be used to access protected resources in the API.
+            The token is signed using a symmetric key defined in the configuration.
+            The token has an expiration time defined in the configuration.
+            The token is returned in the response body.
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="T:T1PR2_APIREST.Controllers.VideogameController">
+            <summary>
+            Controller for managing video games.
+            This controller handles CRUD operations for video games, as well as voting functionality.
+            It uses Entity Framework Core for database operations.
+            It provides endpoints for creating, reading, updating, and deleting video games.
+            It also allows users to vote for their favorite games.
+            This controller is secured with authentication and authorization mechanisms.
+            </summary>
+        </member>
+        <member name="M:T1PR2_APIREST.Controllers.VideogameController.#ctor(T1PR2_APIREST.Context.AppDbContext)">
+            <summary>
+            Constructor for the VideogameController class.
+            This constructor takes AppDbContext as a parameter.
+            It is used to initialize the controller with the database context.
+            This allows the controller to interact with the database and perform CRUD operations on video games.
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:T1PR2_APIREST.Controllers.VideogameController.GetAll">
+            <summary>
+            Get all video games.
+            This method retrieves a list of all video games from the database.
+            It includes the number of votes for each game.
+            It is accessible to all users (anonymous).
+            Example call: GET /api/videogame
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:T1PR2_APIREST.Controllers.VideogameController.GetById(System.Int32)">
+            <summary>
+            Get a video game by ID.
+            This method retrieves a specific video game from the database using its ID.
+            It includes the number of votes for the game.
+            It is accessible to all users (anonymous).
+            Example call: GET /api/videogame/5
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:T1PR2_APIREST.Controllers.VideogameController.CreateGame(T1PR2_APIREST.Models.Game)">
+            <summary>
+            Create a new video game.
+            This method adds a new video game to the database.
+            It requires admin authorization.
+            It is accessible only to users with the "Admin" role.
+            Example call: POST /api/videogame
+            </summary>
+            <param name="game"></param>
+            <returns></returns>
+        </member>
+        <member name="M:T1PR2_APIREST.Controllers.VideogameController.EditGame(System.Int32,T1PR2_APIREST.Models.Game)">
+            <summary>
+            Update an existing video game.
+            This method updates the details of a specific video game in the database using its ID.
+            It requires admin authorization.
+            It is accessible only to users with the "Admin" role.
+            /// Example call: PUT /api/videogame/5
+            </summary>
+            <param name="id"></param>
+            <param name="updated"></param>
+            <returns></returns>
+        </member>
+        <member name="M:T1PR2_APIREST.Controllers.VideogameController.DeleteGame(System.Int32)">
+            <summary>
+            Delete a video game.
+            This method removes a specific video game from the database using its ID.
+            It requires admin authorization.
+            It is accessible only to users with the "Admin" role.
+            Example call: DELETE /api/videogame/5
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:T1PR2_APIREST.Controllers.VideogameController.Vote(System.Int32)">
+            <summary>
+            Vote for a video game.
+            This method allows a user to vote for their favorite video game.
+            It requires user authentication.
+            It is accessible only to authenticated users.
+            Example call: POST /api/videogame/vote/5
+            </summary>
+            <param name="gameId"></param>
+            <returns></returns>
+        </member>
+        <member name="T:T1PR2_APIREST.DTOs.CreateGameDTO">
+            <summary>
+            Data Transfer Object (DTO) for creating a new game.
+            </summary>
+        </member>
+        <member name="P:T1PR2_APIREST.DTOs.CreateGameDTO.Title">
+            <summary>
+            Title of the game.
+            This property is required and must be at least 2 characters long.
+            </summary>
+        </member>
+        <member name="P:T1PR2_APIREST.DTOs.CreateGameDTO.Description">
+            <summary>
+            Description of the game.
+            This property is required.
+            </summary>
+        </member>
+        <member name="P:T1PR2_APIREST.DTOs.CreateGameDTO.DeveloperTeamName">
+            <summary>
+            Name of the developer team.
+            This property is required.
+            </summary>
+        </member>
+        <member name="P:T1PR2_APIREST.DTOs.CreateGameDTO.ImageUrl">
+            <summary>
+            URL of the game's image.
+            Optional property.
+            </summary>
+        </member>
+        <member name="T:T1PR2_APIREST.DTOs.LoginDTO">
+            <summary>
+            Data Transfer Object for user login.
+            Contains the user's email and password.
+            </summary>
+        </member>
+        <member name="P:T1PR2_APIREST.DTOs.LoginDTO.Email">
+            <summary>
+            The email address of the user.
+            </summary>
+        </member>
+        <member name="P:T1PR2_APIREST.DTOs.LoginDTO.Password">
+            <summary>
+            The password of the user.
+            </summary>
+        </member>
+        <member name="T:T1PR2_APIREST.DTOs.ReadGameDTO">
+            <summary>
+            Represents a data transfer object for reading game information.
+            </summary>
+        </member>
+        <member name="P:T1PR2_APIREST.DTOs.ReadGameDTO.Id">
+            <summary>
+            Gets or sets the unique identifier of the game.
+            </summary>
+        </member>
+        <member name="P:T1PR2_APIREST.DTOs.ReadGameDTO.Title">
+            <summary>
+            Gets or sets the title of the game.
+            </summary>
+        </member>
+        <member name="P:T1PR2_APIREST.DTOs.ReadGameDTO.Description">
+            <summary>
+            Gets or sets the description of the game.
+            </summary>
+        </member>
+        <member name="P:T1PR2_APIREST.DTOs.ReadGameDTO.DeveloperTeamName">
+            <summary>
+            Gets or sets the name of the developer team.
+            </summary>
+        </member>
+        <member name="P:T1PR2_APIREST.DTOs.ReadGameDTO.ImageUrl">
+            <summary>
+            Gets or sets the URL of the game's image.
+            </summary>
+        </member>
+        <member name="P:T1PR2_APIREST.DTOs.ReadGameDTO.VoteCount">
+            <summary>
+            Gets or sets the vote count for the game.
+            </summary>
+        </member>
+        <member name="T:T1PR2_APIREST.DTOs.RegisterDTO">
+            <summary>
+            Data Transfer Object for user registration.
+            </summary>
+        </member>
+        <member name="P:T1PR2_APIREST.DTOs.RegisterDTO.Email">
+            <summary>
+            The email address of the user.
+            </summary>
+        </member>
+        <member name="P:T1PR2_APIREST.DTOs.RegisterDTO.UserName">
+            <summary>
+            The username of the user. Must be at least 4 characters long.
+            </summary>
+        </member>
+        <member name="P:T1PR2_APIREST.DTOs.RegisterDTO.Password">
+            <summary>
+            The password of the user. Must be at least 6 characters long.
+            </summary>
+        </member>
+        <member name="T:T1PR2_APIREST.DTOs.VoteDTO">
+            <summary>
+            Represents a data transfer object for a vote.
+            </summary>
+        </member>
+        <member name="P:T1PR2_APIREST.DTOs.VoteDTO.GameId">
+            <summary>
+            Gets or sets the ID of the game being voted on.
+            </summary>
+        </member>
+        <member name="T:T1PR2_APIREST.Hubs.XatHub">
+            <summary>
+            SignalR Hub for managing chat functionality.
+            </summary>
+        </member>
+        <member name="M:T1PR2_APIREST.Hubs.XatHub.EnviaMissatge(System.String,System.String)">
+            <summary>
+            Sends a message to all connected clients.
+            </summary>
+            <param name="usuari">The user sending the message.</param>
+            <param name="missatge">The message content.</param>
+        </member>
+        <member name="M:T1PR2_APIREST.Hubs.XatHub.OnConnectedAsync">
+            <summary>
+            Event triggered when a client connects.
+            </summary>
+        </member>
+        <member name="M:T1PR2_APIREST.Hubs.XatHub.OnDisconnectedAsync(System.Exception)">
+            <summary>
+            Event triggered when a client disconnects.
+            </summary>
+            <param name="ex">The exception that caused the disconnection, if any.</param>
+        </member>
+        <member name="T:T1PR2_APIREST.Migrations.initv2">
+            <inheritdoc />
+        </member>
+        <member name="M:T1PR2_APIREST.Migrations.initv2.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:T1PR2_APIREST.Migrations.initv2.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:T1PR2_APIREST.Migrations.initv2.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:T1PR2_APIREST.Models.Game">
+            <summary>
+            Represents a game entity with details such as title, description, developer team name, and associated votes.
+            </summary>
+        </member>
+        <member name="P:T1PR2_APIREST.Models.Game.Id">
+            <summary>
+            Gets or sets the unique identifier for the game.
+            </summary>
+        </member>
+        <member name="P:T1PR2_APIREST.Models.Game.Title">
+            <summary>
+            Gets or sets the title of the game.
+            </summary>
+        </member>
+        <member name="P:T1PR2_APIREST.Models.Game.Description">
+            <summary>
+            Gets or sets the description of the game.
+            </summary>
+        </member>
+        <member name="P:T1PR2_APIREST.Models.Game.DeveloperTeamName">
+            <summary>
+            Gets or sets the name of the developer team.
+            </summary>
+        </member>
+        <member name="P:T1PR2_APIREST.Models.Game.ImageUrl">
+            <summary>
+            Gets or sets the URL of the game's image.
+            </summary>
+        </member>
+        <member name="P:T1PR2_APIREST.Models.Game.Votes">
+            <summary>
+            Gets or sets the collection of votes associated with the game.
+            </summary>
+        </member>
+        <member name="T:T1PR2_APIREST.Models.User">
+            <summary>
+            Represents a user in the system, inheriting from IdentityUser.
+            </summary>
+        </member>
+        <member name="P:T1PR2_APIREST.Models.User.DisplayName">
+            <summary>
+            Gets or sets the display name of the user.
+            </summary>
+        </member>
+        <member name="P:T1PR2_APIREST.Models.User.Votes">
+            <summary>
+            Gets or sets the collection of votes associated with the user.
+            </summary>
+        </member>
+        <member name="T:T1PR2_APIREST.Models.Vote">
+            <summary>
+            Represents a vote in the system.
+            </summary>
+        </member>
+        <member name="P:T1PR2_APIREST.Models.Vote.Id">
+            <summary>
+            Gets or sets the unique identifier for the vote.
+            </summary>
+        </member>
+        <member name="P:T1PR2_APIREST.Models.Vote.UserId">
+            <summary>
+            Gets or sets the identifier of the user who cast the vote.
+            </summary>
+        </member>
+        <member name="P:T1PR2_APIREST.Models.Vote.User">
+            <summary>
+            Gets or sets the user who cast the vote.
+            </summary>
+        </member>
+        <member name="P:T1PR2_APIREST.Models.Vote.GameId">
+            <summary>
+            Gets or sets the identifier of the game associated with the vote.
+            </summary>
+        </member>
+        <member name="P:T1PR2_APIREST.Models.Vote.Game">
+            <summary>
+            Gets or sets the game associated with the vote.
+            </summary>
+        </member>
+        <member name="T:T1PR2_APIREST.Program">
+            <summary>
+            The main entry point for the T1PR2 API REST application.
+            </summary>
+        </member>
+        <member name="M:T1PR2_APIREST.Program.Main(System.String[])">
+            <summary>
+            The main method that starts the application.
+            </summary>
+            <param name="args">Command-line arguments.</param>
+        </member>
+    </members>
+</doc>
