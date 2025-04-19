@@ -6,21 +6,42 @@ using T1PR2_Client.Model;
 
 namespace T1PR2_Client.Pages
 {
+    /// <summary>
+    /// Represents the model for the Game Detail page.
+    /// </summary>
     public class GameDetailModel : PageModel
     {
         private readonly IHttpClientFactory _httpClient;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GameDetailModel"/> class.
+        /// </summary>
+        /// <param name="httpClient">The HTTP client factory used to create HTTP clients.</param>
         public GameDetailModel(IHttpClientFactory httpClient)
         {
             _httpClient = httpClient;
         }
 
+        /// <summary>
+        /// Gets or sets the ID of the game.
+        /// </summary>
         [BindProperty(SupportsGet = true)]
         public int Id { get; set; }
 
+        /// <summary>
+        /// Gets or sets the game details.
+        /// </summary>
         public GameDTO? game { get; set; }
+
+        /// <summary>
+        /// Gets or sets the message to display to the user.
+        /// </summary>
         public string? Message { get; set; }
 
+        /// <summary>
+        /// Handles GET requests to retrieve game details.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task<IActionResult> OnGetAsync()
         {
             var client = _httpClient.CreateClient("ApiGameJam");
@@ -28,6 +49,10 @@ namespace T1PR2_Client.Pages
             return Page();
         }
 
+        /// <summary>
+        /// Handles POST requests to vote for a game.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task<IActionResult> OnPostAsync()
         {
             var client = _httpClient.CreateClient("ApiGameJam");

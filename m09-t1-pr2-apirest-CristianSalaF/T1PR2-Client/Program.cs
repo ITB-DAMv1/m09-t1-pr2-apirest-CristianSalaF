@@ -2,8 +2,25 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace T1PR2_Client
 {
+    /// <summary>
+    /// Main class for the ASP.NET Core application.
+    /// This class contains the entry point for the application.
+    /// It is responsible for configuring and running the web application.
+    /// </summary>
     public class Program
     {
+        /// <summary>
+        /// Main method for the ASP.NET Core application.
+        /// This method is the entry point of the application.
+        /// It sets up the web application, configures services, and runs the application.
+        /// It includes setting up the configuration, services, middleware, and routing.
+        /// It also includes setting up authentication and session management.
+        /// This method is responsible for starting the application and handling incoming requests.
+        /// It is the main entry point for the application and is called when the application starts.
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException"></exception>
         public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
