@@ -1,0 +1,31 @@
+﻿@page "{id:int}"
+@model T1PR2_Client.Pages.GameDetailModel
+@{
+	ViewData["Title"] = "Detalls del Joc";
+}
+
+<div class="text-center">
+	@if (Model.game != null)
+	{
+		<h2>@Model.game?.Title</h2>
+
+		<img src="@Model.game.ImageUrl" alt="Imatge del joc" style="max-width: 60%;" class="img-fluid mb-3" />
+		<p><strong>Equip desenvolupador:</strong> @Model.game.DeveloperTeamName</p>
+		<p><strong>Descripció:</strong> @Model.game.Description</p>
+
+		<p><strong>Vots:</strong> @Model.game.VoteCount</p>
+
+		<form method="post">
+			<button class="btn btn-success">Votar</button>
+		</form>
+
+		@if (!string.IsNullOrEmpty(Model.Message))
+		{
+			<div class="alert alert-info mt-2">@Model.Message</div>
+		}
+	}
+	else
+	{
+		<p>No s'ha trobat el joc.</p>
+	}
+</div>

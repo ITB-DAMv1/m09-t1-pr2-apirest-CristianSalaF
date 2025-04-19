@@ -5,6 +5,42 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+	<img src="~/itbgamejamlogo.png" />
+	<p class="lead">Benvingut a la pàgina de votació dels jocs de la ITB Game Jam 2025!</p>
+	<p class="lead">Aquí pots veure els jocs creats pels equips participants i votar pel teu favorit.</p>
 </div>
+
+<h2>Llista de jocs (ordenats per vots)</h2>
+
+@if (Model.Games is not null)
+{
+	<table class="table">
+		<thead>
+		<tr>
+			<th>Títol</th>
+			<th>Equip desenvolupador</th>
+			<th>Vots</th>
+			<th>Accions</th>
+		</tr>
+		</thead>
+		<tbody>
+		@foreach (var game in Model.Games) 
+		{
+			<tr>
+				<td>@game.Title</td>
+				<td>@game.DeveloperTeamName</td>
+				<td>@game.VoteCount</td>
+				<td>
+					<a asp-page="/GameDetail" asp-route-id="@game.Id" class="btn btn-sm btn-info">Detall</a>
+					@if (User.Identity.IsAuthenticated)
+					{
+						<form method="post" asp-page-handler="Vote" asp-route-id="@game.Id" class="d-inline">
+							<button class="btn btn-sm btn-success" type="submit">Votar</button>
+						</form>
+					}
+				</td>
+			</tr>
+		}
+		</tbody>
+	</table>
+}
