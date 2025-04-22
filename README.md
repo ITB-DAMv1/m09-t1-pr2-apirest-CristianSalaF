@@ -16,7 +16,7 @@ L’autenticació es fa amb JSON Web Tokens (JWT). Quan un usuari inicia sessió
 
 El client web, construït amb Razor Pages, mostra una llista dels videojocs ordenats pel nombre de vots. Cada entrada permet veure’n els detalls i, si l’usuari està autenticat, pot votar. A la pàgina de detall es mostra també la imatge del joc si està disponible.
 
-El projecte deixa preparat un espai per integrar un sistema de xat amb SignalR, que permetria la comunicació en temps real entre usuaris autenticats.
+El projecte deixa preparat un espai per integrar un sistema de xat amb SignalR, que permet la comunicació en temps real entre usuaris autenticats.
 
 En definitiva, aquest projecte dona una base sòlida per gestionar la participació i votació en un esdeveniment de videojocs, aplicant bones pràctiques com el control d’accessos, validació de dades, ús de DTOs, i una arquitectura clara i escalable.
 
@@ -28,7 +28,7 @@ En definitiva, aquest projecte dona una base sòlida per gestionar la participac
 - **JWT per autenticació**: L'autenticació es fa amb tokens JWT, emmagatzemats a la sessió del client per fer peticions autenticades com votar.
 - **Control d'accessos**: L'atribut `[Authorize]` restringeix accions com crear, editar o eliminar jocs només a usuaris amb rol `Admin`.
 - **Client Razor Pages**: El client mostra la llista de jocs ordenada per nombre de vots, pàgina de detall amb la imatge i descripció, i una funcionalitat per votar només si s’està autenticat.
-- **SignalR (pendent)**: S'ha deixat preparat un espai per implementar el xat en temps real, però es considera funcionalment complet sense aquesta funcionalitat extra.
+- **SignalR**: S'ha deixat preparat un espai per implementar el xat en temps real.
 
 ### Estructura de la solució
 ```txt
